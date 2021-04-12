@@ -1,19 +1,33 @@
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://localhost:8080')
-var topic = 'light'
-//var message = "{'foo': 'filip', 'lat' : '0.1', 'long': '10'}"
-var message ="{'name': 'filip', 'age': '22'}"
 const fs = require('fs');
+var json2xml = require('json2xml');
 
-//var data = '{"Data":{"SOM":{"Tab":[{"Values":{"ExpandedValues":null,"ID":"msorgrole"},"ID":"OrgRole"},{"Values":{"ExpandedValues":null,"ID":"msorg"},"ID":"Organization"}]}}}';
-//var jsonObj = JSON.parse(data);
-//var message = json2xml(jsonObj);
 
-console.log(message);
+function random() {
+  return  Math.floor(Math.random() * 100);
+}
+
+//Number 1 sensor (light)
+var topic1 = 'light'
+
+function light() {
+  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"light","value": '+random()+'}}]}}}';
+  var jsonObj = JSON.parse(message1);
+  message1 = json2xml(jsonObj);
+  console.log(message1);
+  return message1;
+}
 
 client.on('connect',()=>{
+ //var messageno1 = light();
  setInterval(()=>{
- client.publish(topic,message)
- console.log('message sent',message)
+ client.publish(topic1, light())
+ console.log('message sent', light())
  },5000)
 })
+
+
+
+
+//NB, bør egentlig flytte json2xml konvertinger til broker.js
