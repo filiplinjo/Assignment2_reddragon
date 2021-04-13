@@ -11,10 +11,10 @@ function random() {
 //Number 1 sensor (light)
 var topic1 = 'light'
 var topic2 = 'proxmity'
-var topic2 = 'temperature'
-var topic2 = 'security'
-var topic2 = 'smoke and gas'
-var topic2 = 'humidity'
+var topic3 = 'temperature'
+var topic4 = 'security'
+var topic5 = 'smoke and gas'
+var topic6 = 'humidity'
 
 
 function light() {
@@ -34,21 +34,38 @@ function proxmity() {
   return message1;
 }
 
-function light() {
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"light","value": '+random()+'}}]}}}';
+function temperature() {
+  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"Temperature","value": '+random()+'}}]}}}';
   var jsonObj = JSON.parse(message1);
   message1 = json2xml(jsonObj);
   console.log(message1);
   return message1;
 }
 
-function light() {
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"light","value": '+random()+'}}]}}}';
+function security() {
+  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"security","value": '+random()+'}}]}}}';
   var jsonObj = JSON.parse(message1);
   message1 = json2xml(jsonObj);
   console.log(message1);
   return message1;
 }
+
+function Smoke_gas() {
+  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"Smoke and gas","value": '+random()+'}}]}}}';
+  var jsonObj = JSON.parse(message1);
+  message1 = json2xml(jsonObj);
+  console.log(message1);
+  return message1;
+}
+
+function Humidity() {
+  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"Humidity":"Smoke and gas","value": '+random()+'}}]}}}';
+  var jsonObj = JSON.parse(message1);
+  message1 = json2xml(jsonObj);
+  console.log(message1);
+  return message1;
+}
+
 
 client.on('connect',()=>{
  setInterval(()=>{
@@ -66,4 +83,32 @@ client.on('connect',()=>{
 })
 
 
+client.on('connect',()=>{
+ setInterval(()=>{
+ client.publish(topic3, proxmity())
+ console.log('message sent', proxmity())
+ },10000)
+})
+
+
+client.on('connect',()=>{
+ setInterval(()=>{
+ client.publish(topic4, proxmity())
+ console.log('message sent', proxmity())
+ },10000)
+})
+
+client.on('connect',()=>{
+ setInterval(()=>{
+ client.publish(topic5, proxmity())
+ console.log('message sent', proxmity())
+ },10000)
+})
+
+client.on('connect',()=>{
+ setInterval(()=>{
+ client.publish(topic6, proxmity())
+ console.log('message sent', proxmity())
+ },10000)
+})
 //NB, bør egentlig flytte json2xml konvertinger til broker.js
