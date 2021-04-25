@@ -17,28 +17,30 @@ var topic5 = 'smoke and gas'
 var topic6 = 'humidity'
 */
 
-const obj = {
-  light: 'light',
-  proximity: 'proximity',
-  security: 'security',
-  smoke_and_gas: 'smoke and gas',
-  humidity: 'humidity'
-
-}
+//const obj = [ 'light', 'proximity', 'security', 'smoke and gas', 'humidity']
 
 function sensor() {
+//  const obj = [ 'light', 'proximity', 'security', 'smoke and gas', 'humidity']
+//  for (i = 0; i <= 5; i++){
+//  var object = obj[i];
+  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":light,"value": '+random()+'}}]}}}';
+ // var jsonObj = JSON.parse(message1);
+ // message1 = json2xml(jsonObj);
+//  console.log(message1);
+  connect("light", message1)
+//  }
+   console.log("light", messageconnect)
+}
 
-for (i = 0; i <= 5; i++){
- var object = obj[1]; 
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":object,"value": '+random()+'}}]}}}';
-  var jsonObj = JSON.parse(message1);
-  message1 = json2xml(jsonObj);
-  console.log(message1);
+function connect(topic, message){
+  var jsonObj = JSON.parse(message);
+  var messageconnect = json2xml(jsonObj);
+  client.on('connect',()=>{
   setInterval(()=>{
-  client.publish(message1)
-  console.log('message sent')
-  },10000)
- }
+  client.publish(topic, messageconnect)
+  console.log(topic, messageconnect)
+  },5000)
+ })
 }
 
 
