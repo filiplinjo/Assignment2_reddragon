@@ -9,15 +9,42 @@ function random() {
 }
 
 //Number 1 sensor (light)
-var topic1 = 'light'
+/*var topic1 = 'light'
 var topic2 = 'proxmity'
 var topic3 = 'temperature'
 var topic4 = 'security'
 var topic5 = 'smoke and gas'
 var topic6 = 'humidity'
+*/
+
+const obj = {
+  light: 'light',
+  proximity: 'proximity',
+  security: 'security',
+  smoke_and_gas: 'smoke and gas',
+  humidity: 'humidity'
+
+}
+
+function sensor() {
+
+  Object.values(obj).foreach(val=>{
+  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":$val,"value": '+random()+'}}]}}}';
+  var jsonObj = JSON.parse(message1);
+  message1 = json2xml(jsonObj);
+  console.log(message1);
+ setInterval(()=>{
+ client.publish(message1)
+ console.log('message sent')
+ },10000)
+
+ });
+}
 
 
-function light() {
+
+
+/*function light() {
   var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"light","value": '+random()+'}}]}}}';
   var jsonObj = JSON.parse(message1);
   message1 = json2xml(jsonObj);
@@ -65,7 +92,15 @@ function Humidity() {
   console.log(message1);
   return message1;
 }
-
+*/
+/*
+client.on('connect',()=>{
+ 
+ setInterval(()=>{
+ client.publish(topic1, light())
+ console.log('message sent', light())
+ },10000)
+})
 
 client.on('connect',()=>{
  setInterval(()=>{
