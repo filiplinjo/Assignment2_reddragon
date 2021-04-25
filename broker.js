@@ -20,19 +20,18 @@ async function run() {
     broker.on('published', (packet)=>{
       message = packet.payload.toString()
       console.log(message)
-
       var myCol = client.db("project1").collection("home") // DB name and collection name
       myCol.insertOne({
       message:message
       }, ()=>{
       console.log('Data is saved to MongoDB')
-     // client.close()
+      client.close()
       })
      })
 
 } finally {
     // Ensures that the client will close when you finish/error
-   // await client.close();
+    await client.close();
   }
 }
 run().catch(console.dir);
