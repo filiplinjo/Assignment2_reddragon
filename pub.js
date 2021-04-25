@@ -28,16 +28,15 @@ const obj = {
 
 function sensor() {
 
-  Object.values(obj).foreach(val=>{
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":$val,"value": '+random()+'}}]}}}';
+  Object.keys(obj).forEach(key=>{
+  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":obj[key],"value": '+random()+'}}]}}}';
   var jsonObj = JSON.parse(message1);
   message1 = json2xml(jsonObj);
   console.log(message1);
- setInterval(()=>{
- client.publish(message1)
- console.log('message sent')
- },10000)
-
+  setInterval(()=>{
+  client.publish(message1)
+  console.log('message sent')
+  },10000)
  });
 }
 
@@ -147,3 +146,4 @@ client.on('connect',()=>{
  },10000)
 })
 //NB, bør egentlig flytte json2xml konvertinger til broker.js
+*/
