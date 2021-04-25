@@ -28,8 +28,9 @@ const obj = {
 
 function sensor() {
 
-  Object.keys(obj).forEach(key=>{
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":obj[key],"value": '+random()+'}}]}}}';
+for (i = 0; i <= 5; i++){
+ var object = obj[1]; 
+  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":object,"value": '+random()+'}}]}}}';
   var jsonObj = JSON.parse(message1);
   message1 = json2xml(jsonObj);
   console.log(message1);
@@ -37,9 +38,8 @@ function sensor() {
   client.publish(message1)
   console.log('message sent')
   },10000)
- });
+ }
 }
-
 
 
 
