@@ -9,43 +9,16 @@ function random() {
 }
 
 //Number 1 sensor (light)
-/*var topic1 = 'light'
+var topic1 = 'light'
 var topic2 = 'proxmity'
 var topic3 = 'temperature'
 var topic4 = 'security'
 var topic5 = 'smoke and gas'
 var topic6 = 'humidity'
-*/
-
-//const obj = [ 'light', 'proximity', 'security', 'smoke and gas', 'humidity']
-
-function sensor() {
-//  const obj = [ 'light', 'proximity', 'security', 'smoke and gas', 'humidity']
-//  for (i = 0; i <= 5; i++){
-//  var object = obj[i];
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":light,"value": '+random()+'}}]}}}';
- // var jsonObj = JSON.parse(message1);
- // message1 = json2xml(jsonObj);
-//  console.log(message1);
-  connect("light", message1)
-//  }
-   console.log("light", messageconnect)
-}
-
-function connect(topic, message){
-  var jsonObj = JSON.parse(message);
-  var messageconnect = json2xml(jsonObj);
-  client.on('connect',()=>{
-  setInterval(()=>{
-  client.publish(topic, messageconnect)
-  console.log(topic, messageconnect)
-  },5000)
- })
-}
 
 
 
-/*function light() {
+function light() {
   var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"light","value": '+random()+'}}]}}}';
   var jsonObj = JSON.parse(message1);
   message1 = json2xml(jsonObj);
@@ -93,8 +66,7 @@ function Humidity() {
   console.log(message1);
   return message1;
 }
-*/
-/*
+
 client.on('connect',()=>{
  
  setInterval(()=>{
@@ -148,4 +120,4 @@ client.on('connect',()=>{
  },10000)
 })
 //NB, bør egentlig flytte json2xml konvertinger til broker.js
-*/
+
