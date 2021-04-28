@@ -1,3 +1,9 @@
+
+//Det som mangler:
+//1. Fikse EXI helt
+//2. Message som inneholder senML har feil format
+//3. README fil
+
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://localhost:8080')
 const fs = require('fs');
