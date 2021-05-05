@@ -19,7 +19,7 @@ async function run() {
     broker.on('published', (packet)=>{
       message = packet.payload.toString()
       console.log(message)
-      var myCol = client.db("project1").collection("home") // DB name and collection name
+      var myCol = client.db("project2").collection("home") // DB name and collection name
       myCol.insertOne({
       message:message
       }, ()=>{

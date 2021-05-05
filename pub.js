@@ -15,25 +15,16 @@ function random() {
   return  Math.floor(Math.random() * 100).toString();
 }
 
+
 function getVariable(topic) {
-  if(topic === 'light'){
-    return 'Watts';
-  }
-  else if(topic === 'proximity'){
-    return 'Meters';
-  }
-  else if(topic === 'temperatur'){
-    return 'Celsius';
-  }
-  else if(topic === 'security'){
-    return 'Detected burglary';
-  }
-  else if(topic === 'smoke and gas'){
-    return 'OPL';
-  }
-  else {
-    return 'SI';
-  }
+  switch(topic){
+  case 'light':  return 'Watts'; break;
+  case 'proxmity': return 'Meters'; break;
+  case 'temperatur': return 'Celsius'; break;
+  case 'security': return 'Detected burglary'; break;
+  case 'smoke and gas': return 'OPL'; break;
+  default: return 'SI';
+ }
 }
 
 
@@ -56,6 +47,8 @@ function getVariable(topic) {
     client.publish(topic, message)
     },5000)
    })
+
+
 /*
 client.on('connect',()=>{
   setInterval(()=>{
