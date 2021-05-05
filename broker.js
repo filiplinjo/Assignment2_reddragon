@@ -24,13 +24,13 @@ async function run() {
       message:message
       }, ()=>{
       console.log('Data is saved to MongoDB')
-      client.close()
+//      client.close()
       })
      })
 
 } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+//    await client.close();
   }
 }
 run().catch(console.dir);
