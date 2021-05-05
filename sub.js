@@ -2,9 +2,7 @@ var mqtt = require('mqtt');
 const xml2js = require('xml2js')
 var client = mqtt.connect('mqtt://localhost:8080')
 var nr = 0;
-//var nr_connect = 0;
 const array = ['light', 'proxmity', 'temperatur','security', 'smoke and gas', 'humidity'];
-//var topic = array[0];
 const EXI4JSON = require('exificient.js');
 
 client.on('connect', ()=>{

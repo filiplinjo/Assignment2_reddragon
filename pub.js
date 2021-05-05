@@ -31,7 +31,6 @@ function random() {
     client.publish(topic, message)
     },5000)
    })
-
 /*
 client.on('connect',()=>{
   setInterval(()=>{
