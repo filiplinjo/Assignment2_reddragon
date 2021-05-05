@@ -1,9 +1,4 @@
 
-//Det som mangler:
-//1. Fikse EXI helt
-//2. Message som inneholder senML har feil format
-//3. README fil
-
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://localhost:8080')
 const fs = require('fs');
@@ -17,53 +12,43 @@ const array = ['light', 'proxmity', 'temperatur','security', 'smoke and gas', 'h
 
 
 function random() {
-  return  Math.floor(Math.random() * 100);
+  return  Math.floor(Math.random() * 100).toString();
 }
 
+
 //For json2xml uncomment:
-/*
-function sensor() {
-    var message = `{"Data":{"SOM":{"Tab":[{"Values":{"SensorID": "${array[topicnr]}" ,"value": "${random()}"}}]}}}`;
+ client.on('connect',()=>{
+   setInterval(()=>{
+    topic = array[topicnr];
+    nummer = random();
+    var message = `{"Data":{"SOM":{"Tab":[{"Values":{"SensorID": "${topic}" ,"value": "${nummer}"}}]}}}`;
     var jsonObj = JSON.parse(message);
     message = json2xml(jsonObj);
     console.log(message);
     ++topicnr;
     if (topicnr==6){
-    topicnr=0;
-    }
-    return message;
- }
-
-client.on('connect',()=>{
-     var message1= sensor()
-     setInterval(()=>{
-     client.publish(array[topicnr], message1)
-     },5000)
+    topicnr=0}
+    client.publish(topic, message)
+    },5000)
    })
-*/
 
-function EXI_convert() {
-   var message = { "Topic": "${array[topicnr]}", "v": "${random()}"};
-   var uint8Array = EXI4JSON.exify(message);
-   var message1 = uint8Array.toString();
+/*
+client.on('connect',()=>{
+  setInterval(()=>{
+   var topic = array[topicnr];
+   var nummer = random();
+   var message = `{"Data":{"SOM":{"Tab":[{"Values":{"SensorID": "${topic}", "value": "${nummer}"}}]}}}`;
+   var jsonObj = JSON.parse(message);
+   var uint8Array = EXI4JSON.exify(jsonObj);
+   message = uint8Array.toString();
+   console.log(message);
    ++topicnr;
    if (topicnr==6){
     topicnr=0;
     }
-   console.log(message1);
-   return message1;
-}
-
-
-client.on('connect',()=>{
-     var message1= EXI_convert();
-     setInterval(()=>{
-     client.publish(array[topicnr], message1)
+    client.publish(topic,message)
      },5000)
    })
-
-
-
-
+*/
 
 

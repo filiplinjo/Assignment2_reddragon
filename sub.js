@@ -1,9 +1,10 @@
 var mqtt = require('mqtt');
 const xml2js = require('xml2js')
 var client = mqtt.connect('mqtt://localhost:8080')
-let nr = 0;
+var nr = 0;
+//var nr_connect = 0;
 const array = ['light', 'proxmity', 'temperatur','security', 'smoke and gas', 'humidity'];
-
+//var topic = array[0];
 const EXI4JSON = require('exificient.js');
 
 client.on('connect', ()=>{
@@ -15,8 +16,9 @@ client.on('connect', ()=>{
   client.subscribe(array[5]);
 })
 
+/*
 //for EXI2json
-client.on('message', (topic,message)=>{
+client.on('message', (topic, message)=>{
   const json = message.toString()
   EXI4JSON.parse(json, (err, result) => {
     if(err){
@@ -28,9 +30,10 @@ client.on('message', (topic,message)=>{
     topic=array[nr%5];
   });
 })
+*/
 
 //uncomment for xmltojson
-/*
+
 client.on('message', (topic,message)=>{
   const xml = message.toString()
   xml2js.parseString(xml, (err, result) => {
@@ -43,4 +46,4 @@ client.on('message', (topic,message)=>{
     topic=array[nr%5];
   });
 })
-*/
+

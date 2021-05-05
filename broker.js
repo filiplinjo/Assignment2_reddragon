@@ -16,7 +16,6 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
   try {
     await client.connect();
-
     broker.on('published', (packet)=>{
       message = packet.payload.toString()
       console.log(message)
