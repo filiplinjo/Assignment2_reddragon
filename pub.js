@@ -1,123 +1,72 @@
+
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://localhost:8080')
 const fs = require('fs');
 var json2xml = require('json2xml');
+var topicnr = 0;
+
+//senML_exi
+const EXI4JSON = require('exificient.js');
+var toBuffer = require('typedarray-to-buffer')
+
+
+const array = ['light', 'proxmity', 'temperatur','security', 'smoke and gas', 'humidity'];
 
 
 function random() {
-  return  Math.floor(Math.random() * 100);
-}
-
-//Number 1 sensor (light)
-var topic1 = 'light'
-var topic2 = 'proxmity'
-var topic3 = 'temperature'
-var topic4 = 'security'
-var topic5 = 'smoke and gas'
-var topic6 = 'humidity'
-
-
-
-function light() {
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"light","value": '+random()+'}}]}}}';
-  var jsonObj = JSON.parse(message1);
-  message1 = json2xml(jsonObj);
-  console.log(message1);
-  return message1;
+  return  Math.floor(Math.random() * 100).toString();
 }
 
 
-function proxmity() {
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"proxmitiy","value": '+random()+'}}]}}}';
-  var jsonObj = JSON.parse(message1);
-  message1 = json2xml(jsonObj);
-  console.log(message1);
-  return message1;
+function getVariable(topic) {
+  switch(topic){
+  case 'light':  return 'Watts'; break;
+  case 'proxmity': return 'Meters'; break;
+  case 'temperatur': return 'Celsius'; break;
+  case 'security': return 'Detected burglary'; break;
+  case 'smoke and gas': return 'OPL'; break;
+  default: return 'SI';
+ }
 }
 
-function temperature() {
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"Temperature","value": '+random()+'}}]}}}';
-  var jsonObj = JSON.parse(message1);
-  message1 = json2xml(jsonObj);
-  console.log(message1);
-  return message1;
-}
 
-function security() {
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"security","value": '+random()+'}}]}}}';
-  var jsonObj = JSON.parse(message1);
-  message1 = json2xml(jsonObj);
-  console.log(message1);
-  return message1;
-}
+//For json2xml uncomment:
+ client.on('connect',()=>{
+   setInterval(()=>{
+    topic = array[topicnr];
+    var date = new Date();
+    var timestamp = date.toISOString();
+    console.log(timestamp);
+    nummer = random();
+    var variable = getVariable(topic);
+    var message = `{"Data":{"SOM":{"Tab":[{"SensorValues":{"DeviceID": "${topic}" , "NewValue": "${nummer}" , "Time": "${timestamp}" , "Variable": "${variable}" , "Version": "0.0.2"}}]}}}`;
+    var jsonObj = JSON.parse(message);
+    message = json2xml(jsonObj);
+    console.log(message);
+    ++topicnr;
+    if (topicnr==6){
+    topicnr=0}
+    client.publish(topic, message)
+    },5000)
+   })
 
-function Smoke_gas() {
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"SensorID":"Smoke and gas","value": '+random()+'}}]}}}';
-  var jsonObj = JSON.parse(message1);
-  message1 = json2xml(jsonObj);
-  console.log(message1);
-  return message1;
-}
 
-function Humidity() {
-  var message1 = '{"Data":{"SOM":{"Tab":[{"Values":{"Humidity":"Smoke and gas","value": '+random()+'}}]}}}';
-  var jsonObj = JSON.parse(message1);
-  message1 = json2xml(jsonObj);
-  console.log(message1);
-  return message1;
-}
-
+/*
 client.on('connect',()=>{
- 
- setInterval(()=>{
- client.publish(topic1, light())
- console.log('message sent', light())
- },10000)
-})
-
-client.on('connect',()=>{
- setInterval(()=>{
- client.publish(topic1, light())
- console.log('message sent', light())
- },10000)
-})
-
-
-client.on('connect',()=>{
- setInterval(()=>{
- client.publish(topic2, proxmity())
- console.log('message sent', proxmity())
- },10000)
-})
-
-
-client.on('connect',()=>{
- setInterval(()=>{
- client.publish(topic3, temperature())
- console.log('message sent', temperature())
- },10000)
-})
-
-
-client.on('connect',()=>{
- setInterval(()=>{
- client.publish(topic4, security())
- console.log('message sent', security())
- },10000)
-})
-
-client.on('connect',()=>{
- setInterval(()=>{
- client.publish(topic5, Smoke_gas())
- console.log('message sent', Smoke_gas())
- },10000)
-})
-
-client.on('connect',()=>{
- setInterval(()=>{
- client.publish(topic6, Humidity())
- console.log('message sent', Humidity())
- },10000)
-})
-//NB, bør egentlig flytte json2xml konvertinger til broker.js
+  setInterval(()=>{
+   var topic = array[topicnr];
+   var nummer = random();
+   var message = `{"Data":{"SOM":{"Tab":[{"Values":{"SensorID": "${topic}", "value": "${nummer}"}}]}}}`;
+   var jsonObj = JSON.parse(message);
+   var uint8Array = EXI4JSON.exify(jsonObj);
+   uint8Array = toBuffer(uint8Array);
+   console.log(uint8Array);
+   ++topicnr;
+   if (topicnr==6){
+    topicnr=0;
+    }
+     client.publish(topic, uint8Array)
+     },5000)
+   })
+*/
 
