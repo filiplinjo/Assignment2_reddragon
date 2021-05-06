@@ -6,7 +6,9 @@ var json2xml = require('json2xml');
 var topicnr = 0;
 
 //senML_exi
-//const EXI4JSON = require('exificient.js');
+const EXI4JSON = require('exificient.js');
+var toBuffer = require('typedarray-to-buffer')
+
 
 const array = ['light', 'proxmity', 'temperatur','security', 'smoke and gas', 'humidity'];
 
@@ -57,15 +59,14 @@ client.on('connect',()=>{
    var message = `{"Data":{"SOM":{"Tab":[{"Values":{"SensorID": "${topic}", "value": "${nummer}"}}]}}}`;
    var jsonObj = JSON.parse(message);
    var uint8Array = EXI4JSON.exify(jsonObj);
-   message = uint8Array.toString();
-   console.log(message);
+   uint8Array = toBuffer(uint8Array);
+   console.log(uint8Array);
    ++topicnr;
    if (topicnr==6){
     topicnr=0;
     }
-    client.publish(topic,message)
+     client.publish(topic, uint8Array)
      },5000)
    })
 */
-
 
