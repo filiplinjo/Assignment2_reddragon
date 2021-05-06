@@ -59,7 +59,7 @@ client.on('connect',()=>{
    var message = `{"Data":{"SOM":{"Tab":[{"Values":{"SensorID": "${topic}", "value": "${nummer}"}}]}}}`;
    var jsonObj = JSON.parse(message);
    var uint8Array = EXI4JSON.exify(jsonObj);
-   uint8Array = toBuffer(uint8Array);
+   uint8Array = toBuffer(uint8Array);  //To be able to send Integer, buffer is used
    console.log(uint8Array);
    ++topicnr;
    if (topicnr==6){

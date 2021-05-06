@@ -21,10 +21,10 @@ async function run() {
   try {
     await client.connect();
     broker.on('published', (packet)=>{
-      //decode for EXI
-      //var message = packet.payload.toString()
-      //var jsonObjOut = EXI4JSON.parse(message);
-      //message = json2xml(jsonObjout);
+      //Decode for EXI:
+      //var a = tou8(packet.payload);        //Converts buffer into uint8Array
+      //var jsonObjOut = EXI4JSON.parse(a);  //Converts the uint8Array into jsonObj
+      //message = json2xml(jsonObjout);      //Converts jsonObj into xml (stored as xml on database)
       message = packet.payload.toString()
       console.log(message)
       var myCol = client.db("project1").collection("home") // DB name and collection name
@@ -32,13 +32,13 @@ async function run() {
       message:String(message)
       }, ()=>{
       console.log('Data is saved to MongoDB')
-//      client.close()
+        //client.close()
       })
      })
 
 } finally {
-    // Ensures that the client will close when you finish/error
-//    await client.close();
+    //Ensures that the client will close when you finish/error
+    //await client.close();
   }
 }
 run().catch(console.dir);
